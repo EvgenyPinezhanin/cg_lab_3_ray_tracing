@@ -12,7 +12,7 @@ namespace RayTracing
 
         //Угол поворота камеры вокруг оси X и Y
         private float pitch = 0.0f;
-        private float yaw = -MathHelper.PiOver2;
+        private float yaw = MathHelper.PiOver2;
 
         //Угол обзора камеры
         private float fov = MathHelper.PiOver2;

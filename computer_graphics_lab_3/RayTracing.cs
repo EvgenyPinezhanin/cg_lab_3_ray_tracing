@@ -23,7 +23,7 @@ namespace RayTracing
         private Shader ShaderProgram;
 
         private Camera camera;
-        private Vector3 startCameraPos = new Vector3(0.0f, 0.0f, 7.0f);
+        private Vector3 startCameraPos = new Vector3(0.0f, 0.0f, -7.0f);
         private const float cameraSpeed = 2.5f;
         private const float sensitivity = 0.1f;
         private bool firstMove = true;
@@ -87,8 +87,8 @@ namespace RayTracing
         {
             base.OnRenderFrame(e);
 
-            // Clear the color buffer and depth.
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+            // Clear the color buffer
+            GL.Clear(ClearBufferMask.ColorBufferBit);
 
             // Bind the VAO
             GL.BindVertexArray(VertexArrayObject);
@@ -96,11 +96,17 @@ namespace RayTracing
             ShaderProgram.Use();
 
             // Свойства камеры
-            ShaderProgram.SetVector3("camera.Position", new Vector3(0.0f, 0.0f, -7.0f));
-            ShaderProgram.SetVector3("camera.View", new Vector3(0.0f, 0.0f, 1.0f));
-            ShaderProgram.SetVector3("camera.Up", new Vector3(0.0f, 1.0f, 0.0f));
-            ShaderProgram.SetVector3("camera.Side", new Vector3(1.0f, 0.0f, 0.0f));
-            ShaderProgram.SetVector2("camera.Scale", new Vector2(camera.AspectRatio, 1.0f));
+            ShaderProgram.SetVector3("uCamera.Position", new Vector3(0.0f, 0.0f, -7.0f));
+            ShaderProgram.SetVector3("uCamera.View", new Vector3(0.0f, 0.0f, 1.0f));
+            ShaderProgram.SetVector3("uCamera.Up", new Vector3(0.0f, 1.0f, 0.0f));
+            ShaderProgram.SetVector3("uCamera.Side", new Vector3(1.0f, 0.0f, 0.0f));
+            ShaderProgram.SetVector2("uCamera.Scale", new Vector2(camera.AspectRatio, 1.0f));
+
+            // ShaderProgram.SetVector3("uCamera.Position", camera.Position);
+            // ShaderProgram.SetVector3("uCamera.View", camera.Front);
+            // ShaderProgram.SetVector3("uCamera.Up", camera.Up);
+            // ShaderProgram.SetVector3("uCamera.Side", camera.Right);
+            // ShaderProgram.SetVector2("uCamera.Scale", new Vector2(camera.AspectRatio, 1.0f));
 
             // This draws the square
             GL.DrawArrays(PrimitiveType.Quads, 0, 4);
